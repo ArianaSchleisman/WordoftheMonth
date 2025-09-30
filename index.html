@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word of the Month Archive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .year-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .year-tab {
+            padding: 10px 30px;
+            border: none;
+            background: white;
+            color: #667eea;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .year-tab:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .year-tab.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .year-content {
+            display: none;
+            padding: 40px;
+        }
+        
+        .year-content.active {
+            display: block;
+        }
+        
+        .messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .message-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .message-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .message-card.expanded {
+            grid-column: 1 / -1;
+            cursor: default;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .message-month {
+            font-size: 0.9em;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .message-word {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #764ba2;
+        }
+        
+        .message-preview {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .message-full {
+            display: none;
+            color: #333;
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .message-card.expanded .message-full {
+            display: block;
+        }
+        
+        .message-card.expanded .message-preview {
+            display: none;
+        }
+        
+        .message-full p {
+            margin-bottom: 15px;
+        }
+        
+        .message-full em {
+            font-style: italic;
+        }
+        
+        .message-full strong {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .expand-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+        
+        .collapse-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .collapse-btn:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Word of the Month Archive</h1>
+            <p>A collection of leadership reflections and team inspiration</p>
+        </div>
+        
+        <div class="year-nav">
+            <button class="year-tab" data-year="2023" onclick="showYear('2023')">2023</button>
+            <button class="year-tab" data-year="2024" onclick="showYear('2024')">2024</button>
+            <button class="year-tab active" data-year="2025" onclick="showYear('2025')">2025</button>
+        </div>
+        
+        <div id="year-2025" class="year-content active">
+            <div class="messages-grid">
+                <!-- September 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">September 2025</div>
+                        <div class="message-word">Navigate</div>
+                    </div>
+                    <div class="message-preview">
+                        As the only person in my friend group whose favorite season is winter, let me just say how thrilled I am to be in the final month of summer...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>As the only person in my friend group whose favorite season is winter, let me just say how thrilled I am to be in the final month of summer. We have been doing all the typical Colorado warm-weather outdoor activities, including many hikes that ultimately end up with us cooling off in a river. Recently, my husband made a joke about not letting me go hiking alone because I am so embarrassingly directionally challenged, and it got me thinking…</p>
+                        <p>Imagine you're in the middle of a hike, and suddenly the trail markers disappear. The landscape looks familiar, but nothing is quite where you expected it to be. What do you do next?</p>
+                        <p><strong>September Word of the Month: Navigate (v) to plan and direct the course of a ship, aircraft, or other vehicle; to find one's way.</strong></p>
+                        <p>On many of the pursuits I've been part of lately, there have been limited "markers." Clients just don't know what to ask for, but they know they need something. And I know you each experience this with your clients: ambiguous asks, limited direction, and still a feeling of urgency. So, what do we do?</p>
+                        <p>Uncertainty can often carry an air of anxiety, and our ability to navigate through that anxiety is a critical first step in turning ambiguous requests into meaningful outcomes. The truth is, our clients may also be uncertain and anxious, and demonstrating cool confidence will solidify their trust in us.</p>
+                        <p>Once we've collected ourselves and accepted that the ask is going to be ambiguous, what next? Well, the great news about ambiguity is… it's ambiguous! Rather than seeing the lack of direction as a roadblock or a frustration, reframe it as an opportunity to get creative. Make some (reasonable) assumptions and give pie-in-the-sky ideas; get the conversation started so the client has something to react to. Even if you miss the unmarked mark, at least you've started to narrow in on an outcome.</p>
+                        <p>Navigating isn't about having a perfect map; it's about being willing to examine your surroundings, make informed choices, and adjust your course as you go. Be bold, be confident, be humble, and respect your new environment.</p>
+                        <p>As we move into what I know will be a complex and challenging season, I have complete faith in our collective ability to navigate whatever comes our way. Your creativity, resilience, and willingness to lean into uncertainty are what make this team extraordinary.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- August 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">August 2025</div>
+                        <div class="message-word">Fuel</div>
+                    </div>
+                    <div class="message-preview">
+                        Can you believe it's August? It feels like just yesterday we were discussing spring momentum, and here we are preparing for the busiest time of the year...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>Can you believe it's August? It feels like just yesterday we were discussing spring momentum, and here we are preparing for the busiest time of the year. I hope you've been able to sneak in some summer fun, whether that's a long weekend getaway, evenings on a patio, or just the simple joy of not needing a jacket when you step outside.</p>
+                        <p>As we head into what I know will be an intense and demanding end of year, I've been thinking a lot about sustainability. How do we maintain the incredible momentum we've built without running ourselves into the ground?</p>
+                        <p><strong>August Word of the Month: Fuel (n) a thing that sustains or inflames passion, argument, or other emotion or activity.</strong></p>
+                        <p>Think about your car for a moment. You wouldn't start a cross-country road trip on empty, right? You'd fill up the tank, grab some snacks, and check your playlist. The same principle applies as we gear up for peak season. We need to make sure we're properly fueled for the journey ahead.</p>
+                        <p>And what's fascinating about fuel? It's not one-size-fits-all. Maybe you're fueled by tackling a challenging problem that no one else wants to touch. Maybe it's a quick coffee chat with a teammate that reminds you why you love this work. Maybe it's finally crossing that nagging task off your list or seeing a client's face light up when something clicks.</p>
+                        <p>This month, I challenge you to pay attention to what gives you energy and keeps your tank full. Is it variety in your projects? Deep focus time? Collaboration and brainstorming? Recognition for a job well done? Once you figure out your fuel type, talk to your leader to make sure you get enough of it.</p>
+                        <p>And just like you wouldn't ignore the fuel gauge in your car, don't ignore your own. If you're running low, speak up.</p>
+                        <p>The road ahead is going to be exciting and challenging. But I have complete confidence in this team's ability to not just survive the busy season, but to thrive in it – as long as we keep our tanks full.</p>
+                        <p>Thank you for everything you do. Let's fuel up and show everyone what we're capable of.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- June 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">June 2025</div>
+                        <div class="message-word">Ambition</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope you're all filling your summer calendar with your favorite activities, snacks, and people. I attended an Alex Warren concert a few weeks ago...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope you're all filling your summer calendar with your favorite activities, snacks, and people. I attended an Alex Warren concert a few weeks ago and am excited for the rest of my summer lineup that includes Post Malone, AJR, and The Polish Ambassador.</p>
+                        <p>As I've been transitioning into my new role, I've been thinking a lot about how much we've accomplished together over the last few years. We've tackled complex client challenges, supported each other through team structure changes, and continued to grow our collective influence within Messaging and beyond. There is no shortage of ambition within this team, and I think it's our responsibility to continue to nurture that ambition for ourselves and our clients.</p>
+                        <p><strong>June Word of the Month: Ambition (n) a strong desire to do or to achieve something, typically requiring determination and hard work.</strong></p>
+                        <p>I've always believed that the best kind of ambition lifts everyone up, and that's exactly what I see on this team. The magic of this organization is that somehow, while everyone here is determined to do the right thing and do it well, we're also obsessed with making sure the people around us do the same. Our ambition leaves no one behind and doesn't depend on the misfortune of anyone else. As we plan for the back half of the year, think of your ambition like a spotlight rather than a floodlight. A floodlight illuminates everything, often suddenly clicking on in response to something else. A spotlight, on the other hand, intentionally focuses all its energy on exactly what matters most.</p>
+                        <p>This month, I challenge you to take your personal and professional goals and put them under that spotlight. What are the one or two things that, if you achieved them by December, would make you feel genuinely proud of yourself or your team? What skills do you want to sharpen? What relationships do you want to deepen? What impact do you want to make?</p>
+                        <p>Take some time to have this conversation with your career advocate. Share what you're most excited to tackle in the next six months and then let's make sure your ambitions align with opportunities we can create together.</p>
+                        <p>Eternally grateful,<br>Ari</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- May 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">May 2025</div>
+                        <div class="message-word">Trust</div>
+                    </div>
+                    <div class="message-preview">
+                        It's May!!!! Unlike the administrative renewal of January, spring feels like a natural reward. We survived the dark, dormant winter...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>It's May!!!! Unlike the administrative renewal of January, spring feels like a natural reward. We survived the dark, dormant winter, we braved the April showers, and now? The sun is out, you're photosynthesizing (ok, not exactly), and I bet you're feeling re-energized to tackle personal and professional projects. We know the calendar will reset each year, but we trust that spring will bring renewed energy, focus, clarity, and growth when we need it most.</p>
+                        <p><strong>May Word of the Month: Trust (n) firm belief in the reliability, truth, ability, or strength of someone or something.</strong></p>
+                        <p>Hopefully, you have seen Lisa's email this morning about changes to our org. Since we have all lived through countless structural changes, we know these moves can generate a sense of uncertainty. This is where my ask of you begins: trust the process, and if you can't trust the process, trust yourself and your people. The culture of this team is second to none, and it has always been what gets us through challenging times.</p>
+                        <p><strong>Remember:</strong></p>
+                        <p>1. The uniqueness of each of you is what makes this team exceptional.<br>
+                        2. Your support of one another is what makes this team culture different than most.<br>
+                        3. Things around us – the business, clients, teammates – will always change, but how you show up doesn't have to.</p>
+                        <p>I have been incredibly lucky to be a leader on this team. Your trust in me as a career advocate, colleague, and mentor has been a major source of my job satisfaction for the last four years. The best part is that I didn't build that alone – each of you has an unending capacity to collaborate, think critically, and have fun. Our success can be linked directly to the trust we have built across this team: we know someone will always have our back and support us in doing what's right.</p>
+                        <p>As we all take advantage of the cosmic push that spring gives us, I hope you each find your right balance of new and old. That you trust your instincts but keep your mind open to new opportunities. And while I may have a new seat, I will always be here if you need me.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- April 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">April 2025</div>
+                        <div class="message-word">Glimmers</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope this message finds you all safe and dry after the storms this week and easing into spring. Maybe your grass is turning green again...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope this message finds you all safe and dry after the storms this week and easing into spring. Maybe your grass is turning green again, you've put away your flannel sheets, or you're enjoying a moment of bliss in a warm ray of sunshine (I've taken to calling this "sunflower time"). As we dive into April after a difficult March, I hope you're finding glimmers in your day-to-day.</p>
+                        <p><strong>April Word of the Month: Glimmers (n) small moments of joy or peace that arise from appreciating simple things.</strong></p>
+                        <p>In the chaos and challenge of our daily lives, it's easy to underestimate the power of the small things that bring us joy. Glimmers can be as simple as a perfect cup of coffee in the morning or a kind word from a colleague. These everyday moments may seem insignificant, but I'd challenge that no matter how large or small, anything that brings you joy is, by nature, significant.</p>
+                        <p>As we continue to navigate demanding clients and ambitious goals, let's not ignore the glimmers that bring us levity and laughter. Let them provide the motivation and energy you need to keep pushing forward.</p>
+                        <p>This month, I encourage you to revel in the glimmers. Give yourself an extra moment to appreciate them; let them pile up! I've been guilty of using the phrase "death by papercuts" but this month I'm leaning into "joy by glimmers."</p>
+                        <p>Thank you for all for showing up each day for our clients and each other.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- March 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">March 2025</div>
+                        <div class="message-word">Share</div>
+                    </div>
+                    <div class="message-preview">
+                        Hopefully, everyone has experienced a little false spring by now! Here in CO, we had a week of 60-degree days followed by a major snowfall...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Hey gang,</strong></p>
+                        <p>Hopefully, everyone has experienced a little false spring by now! Here in CO, we had a week of 60-degree days followed by a major snowfall. But that little reprieve energized our neighborhood, and folks are still out taking walks even though we can see our breath again.</p>
+                        <p>As you may know, I recently took time off to be with my family as my dad underwent open heart surgery. He was born with two defects that would require repair at some point. And while I'd known about that inevitability my entire life, I found myself unprepared when the day arrived. But as the week in the hospital progressed, I kept returning to a single, comforting thought: everyone in this hospital shares this experience.</p>
+                        <p><strong>March Word of the Month: Share (v) have a portion of (something) with another or others.</strong></p>
+                        <p>We, as a team, have shared countless experiences. We have welcomed new team members and said goodbye to others. Celebrated weddings and babies and mourned losses. We've onboarded new clients and been blindsided by departures. We continuously celebrate growth and success and support one another when things don't go our way. Each of these events is too big to experience alone.</p>
+                        <p>My goal has always been for everyone on this team to feel they can share their wins and losses with their teammates. Things are exponentially more fun and less daunting when we don't do them alone. In the minutia, everything feels personal. But when we step back and consider the infinite realities of the human experience… how beautiful is it that others know our triumph? Our struggle? This month I encourage you to refocus on sharing with your team; celebrate, commiserate, whatever it is – just don't do it alone.</p>
+                        <p>Thank you for everything you do. Thank you for creating a culture I hope you're all proud of, I know I am.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- February 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">February 2025</div>
+                        <div class="message-word">Momentum</div>
+                    </div>
+                    <div class="message-preview">
+                        Hopefully, you're all fending off the post-holiday blues! Maybe you're settling into new routines or counting down the days until spring...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>Hopefully, you're all fending off the post-holiday blues! Maybe you're settling into new routines or counting down the days until spring, but I hope 2025 has been good to you so far. Admittedly, I've found myself less organized than I like to be, but sometimes that's just the season we're in. 😊</p>
+                        <p>In a few recent conversations, I've had a chance to reflect on how far we've come since last February. You all have accomplishments to be proud of, whether they be new certifications, new clients, or new skills. We made our last org change in April and while there were a lot of questions, we powered through and grew as a team. We had many successes in 2024, and in 2025, we should lean into the momentum we built and see how far we can take it.</p>
+                        <p><strong>February Word of the Month: Momentum (n) the impetus gained by a moving object.</strong></p>
+                        <p>Collectively, this team took advantage of the combining of legacy teams and learned from one another to adapt how you show up in your roles, and we are reaping the benefits! We have team members being sent on client visits, pulled into contract scoping, assisting other teams, and guiding critical account-level conversations. This is because of your hard work and growth mindsets. You all committed to our org change and became a high-performing, cohesive team. It didn't happen overnight, but little by little, we built momentum and delivered on the promise of our new normal.</p>
+                        <p>We will continue to see change across our org and our business, but more than ever before, we are earning a seat at tables we've previously been excluded from. Don't let off the gas – keep pushing, keep escalating, keep speaking up. It's working.</p>
+                        <p>Thank you to 12-months-ago-you for leaning in and making today possible.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- January 2025 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">January 2025</div>
+                        <div class="message-word">Revel</div>
+                    </div>
+                    <div class="message-preview">
+                        Team (omg I'm so glad you're all back)! I hope everyone had a restful, joy-filled break...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team (omg I'm so glad you're all back)!</strong></p>
+                        <p>I hope everyone had a restful, joy-filled break. Since we won't have team meetings for a few weeks, please share any fun stories/photos in our team chat; I'd LOVE to see them!</p>
+                        <p>You may recall from the 2024 January Word of the Month that I am not a big fan of New Year's Resolutions. Last year, I implored you to spend January curious – to indulge in anything that interested you. Deciding to remain flexible and open is, to me, the whole point of well… everything. As I reflected on our last year and spent more time dreaming up what I hope this year will bring, I realized we spend a lot of time talking about change and adaptability. And while I will not back down from the perspective that both are critical and never-ending, I hope I haven't gone so far down that path that you haven't spent time recognizing and reveling in the things you absolutely should not change.</p>
+                        <p><strong>January Word of the Month: Revel (v) to take intense pleasure or satisfaction.</strong></p>
+                        <p>We've all received the feedback request "What should So-and-So keep doing, start doing, and stop doing?" and we usually respond with "keep doing [insert all of the great qualities someone has that we love]." This month, I want each of you to do that for yourself – what should you keep doing? When you're writing your year-end review for 2025, what do you hope is still true about the way you show up here? Intentionally spend some time to revel in your strengths. How can you make sure you appreciate them more often?</p>
+                        <p>While everywhere we turn we're being targeted with "New Year New You" garbage, remember you're already incredible, and then admit why.</p>
+                        <p>I cannot wait to see all we accomplish in 2025. Happy New Year, team. I'm thankful to be heading into this one alongside each of you.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="year-2023" class="year-content">
+            <div class="messages-grid">
+                <!-- December 2023 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">December 2023</div>
+                        <div class="message-word">Content</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope each of you found time to relax and decompress over the holiday closure. Ideally, you found many moments of joy...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope each of you found time to relax and decompress over the holiday closure. Ideally, you found many moments of joy. A huge congratulations to all our team members on retail clients who executed a remarkably successful Black Friday / Cyber Monday weekend.</p>
+                        <p>In our final Word of the Month email for 2023, I thought I'd share a bit about how I approach this exercise. There is a lot of consideration that goes into deciding the word each month. One-on-one conversations, our latest client news, the climate of the business and our team… I take all of this into account before I draft this note.</p>
+                        <p>After our back-to-back All Hands calls yesterday, my twinkling of an idea for this month was solidified. We all know 2023 has been a rough year with a steady stream of change paired with challenging financials. Difficult conversations and business decisions had immediate and lasting impacts.</p>
+                        <p>And yet, in the face of all these challenges, this team has risen to the occasion. We have met the needs of the moment, for both our clients and our partners, while continuing to support one another. Our list of accomplishments this year (some grand and some quiet) have set us up for an exceptional 2024.</p>
+                        <p><strong>December Word of the Month: Content (adjective) in a state of peaceful happiness.</strong></p>
+                        <p>As we put the finishing touches on 2023, I hope you each take a moment to feel proud of yourselves, to feel content in closing a difficult year better than we started it. You showed up. You persevered. You triumphed.</p>
+                        <p>Thank you. A million times, thank you.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- November 2023 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">November 2023</div>
+                        <div class="message-word">Joy</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope you all had a great Halloween passing out candy, trick-or-treating, watching scary movies, or doing whatever it is you like to do on October 31!...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope you all had a great Halloween passing out candy, trick-or-treating, watching scary movies, or doing whatever it is you like to do on October 31! We enjoyed our third year of trick-or-treating with our neighbors and my daughter was upset it was over until I reminded her ski season starts in November.</p>
+                        <p>I was recently told by my vitamin package that Henry Winkler once said, "I live by two words: tenacity and gratitude." This was eerily timely for two reasons: 1) I've been thinking a lot lately about gratitude and glimmers* (both personally and professionally) and 2) when I Googled Henry Winkler to remind myself what else I've enjoyed him in besides Barry, it turns out his birthday is October 30! Spooky…</p>
+                        <p>This time of year is an interesting one for us; holiday season prep ramps up and we plan for magic moments at home and for our clients. At the same time, we write self-evaluations highlighting the good we've done this year – the challenges we overcame, the new ideas we had, the goals we set and smashed. It's a fascinating and profoundly human thing to concurrently be so deeply reflective and forward-thinking. While you contemplate what you've already done and what you will do, let your tenacity be re-invigorated; have gratitude for being who you are, where you are; give yourself a moment (or several) to treat yourself like you treat your loved ones: less critical, more kind. Let this month and these seemingly conflicting practices bring you joy.</p>
+                        <p><strong>November Word of the Month: Joy (n) a feeling of great pleasure and happiness.</strong></p>
+                        <p>Joy does not have to be overly complicated or spectacular. Last weekend, we had friends over for brunch. After we ate, I scooped up their 4-month-old while everyone else played Uno. I stood in our living room holding that snuggly, sleepy peanut listening to my favorite people laugh and tease one another. For me, that moment – simple, easy, quiet even with the non-stop giggles – was joy.</p>
+                        <p>I hope your favorite song comes on while you look for holiday recipes. I hope you're reminded of and take pride in the kick ass job you did back in February when you add all your Motivosity notes to your evaluation. I hope your November is full to the brim with joy.</p>
+                        <p>Ari</p>
+                        <p><em>*If you're not familiar with the idea of glimmers: Glimmers are small moments that spark joy or peace, which can help cue our nervous system to feel safe or calm.</em></p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- October 2023 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">October 2023</div>
+                        <div class="message-word">Champion</div>
+                    </div>
+                    <div class="message-preview">
+                        It's finally happened – early Halloween décor, pumpkin spice lattes, and football season have gotten us to October...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>It's finally happened – early Halloween décor, pumpkin spice lattes, and football season have gotten us to October. I've always found something oddly calming about this month; a time for cozy evenings, crisp mornings, and a little reflection on the year we've had so far.</p>
+                        <p>When I take a moment to think about this team that has come together seemingly via chaos theory, I can't help but feel grateful. Grateful that you've each chosen to show up and be a member of this team and department. You are consummate professionals, stewards of curiosity and collaboration, champions of your clients and one another.</p>
+                        <p><strong>October Word of the Month: Champion (noun) a person who fights or argues for a cause or on behalf of someone else.</strong></p>
+                        <p>As we continue careening toward the end of another calendar year, there have been a few things dominating my thoughts:</p>
+                        <p>• How do we continue to face change with grace?<br>
+                        • What can we do to strengthen our team's culture?<br>
+                        • Are we giving ourselves enough credit?</p>
+                        <p>I've arrived at the same answer to each of these questions: We continue to champion our clients, each other, and ourselves. It is up to us to commit to the belief that we are all doing the best we can, with what we have, where we are.</p>
+                        <p>This month, I encourage you to find an opportunity, a cause, or a colleague to rally behind. Something or someone you see potential in. Something that gets you excited! And don't forget to pour some of that enthusiastic attention back into yourself.</p>
+                        <p>I say it each time but it's hardly enough, thank you for all you do.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- September 2023 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">September 2023</div>
+                        <div class="message-word">Anticipate</div>
+                    </div>
+                    <div class="message-preview">
+                        In my corner of the world, Halloween is already creeping into the grocery store and my daughter has enthusiastically announced she wants to be a gingerbread man this year...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>A-Team,</strong></p>
+                        <p>In my corner of the world, Halloween is already creeping into the grocery store and my daughter has enthusiastically announced she wants to be a gingerbread man this year. I don't know about you, but I am fairly certain it's still summer. Still, it's fun to think about all the activities that come with fall and start to prepare for that incredibly quick time lapse that happens between Thanksgiving and New Year's Eve.</p>
+                        <p>At a company as large as ours, change will always be part of our reality. One of my goals for this team is that we all become as comfortable as possible with change and remain flexible—ready to adapt and grow with the organization to meet the demands of the market and our clients. Learning to anticipate those demands and act accordingly will be a key component to our long-term success.</p>
+                        <p><strong>September Word of the Month: Anticipate (verb) regard as probable; expect or predict.</strong></p>
+                        <p>How many times have you found yourself saying "I knew this would happen?" I don't think we give ourselves enough credit for just how much we anticipate the outcomes of client conversations and projects, or even their whims. This is a team of smart, capable individuals—few things get past us!</p>
+                        <p>So, what do you do when your spidey senses start tingling? During those first moments you start to see the future unfold based on the information being shared (or not) with you, do you keep concerns to yourself? Modify your solution on the spot? Plan for the fall-out? Of course, our ability to predict outcomes isn't specific to unfavorable events! When you can see the stars aligning, how do you capitalize on those opportunities?</p>
+                        <p>In September, I want each of you to bet on yourselves. Trust your gut when you think you can see a few steps ahead and make changes accordingly. Anticipate your clients' needs and ask yourself how you can meet (or better yet, exceed) them.</p>
+                        <p>As always, when the work feels like a lot or you just don't know where to start—remember you are part of a team and I don't expect anyone to do everything alone. Tap into this incredible network we have; I can promise you it doesn't exist everywhere.</p>
+                        <p>Happy pumpkin spice season to all who celebrate,</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- August 2023 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">August 2023</div>
+                        <div class="message-word">Resolute</div>
+                    </div>
+                    <div class="message-preview">
+                        It feels like we're rolling through the back half of the calendar at a break-neck pace. I hope you've all been able to enjoy some sunshine...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>It feels like we're rolling through the back half of the calendar at a break-neck pace. I hope you've all been able to enjoy some sunshine and your favorite activities outside of work.</p>
+                        <p>While thinking about how quickly time is going by, I'm reminded of just how much change we've all gone through this year. I know for some that change is more welcome than for others and that's fair. The different personalities and perspectives of this team are (in my opinion) what make it so great. We need the change champions and the change skeptics.</p>
+                        <p>After the Messaging Solutions All-Hands last week, it's a widely known fact that we'll continue to see change. It is my hope that, regardless of your excitement for that change or lack thereof, we continue to remain resolute in our mission to deliver excellent service to our clients and enthusiastic support to one another.</p>
+                        <p><strong>August Word of the Month: Resolute (adj) admirably purposeful, determined, and unwavering.</strong></p>
+                        <p>While we cannot always control what is happening around us, we absolutely can control how we interact with our clients, internal partners, and each other. If and when things around you start to feel uncharted, I challenge each of you to be resolute and lean into what you do know: your technical skills are sound, you are capable of what's been put in front of you, and you have a team ready to support you if you need it.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- July 2023 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">July 2023</div>
+                        <div class="message-word">Prospect</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope everyone had a safe and fun-filled long weekend! As we leave June behind, I hope everyone was able to find a little more harmony...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope everyone had a safe and fun-filled long weekend!</p>
+                        <p>As we leave June behind, I hope everyone was able to find a little more harmony among the different roles we play at work and at home. And with a little more pep in our step, I challenge everyone to shift their mindsets in July and approach things in a new way.</p>
+                        <p><strong>July Word of the Month: Prospect (n) the possibility or likelihood of some good future event occurring (ok ok "good" isn't in the definition but it's our Word of the Month and we'll do what we want with it).</strong></p>
+                        <p>Often, the easiest outlook is full of doubt. We default to outlining all the things that could go wrong when a new situation or challenge is put in front of us. <em>This could break. I've never done this before. This is a ridiculous idea.</em></p>
+                        <p><strong>Prospects:</strong> not great.</p>
+                        <p>BUT what would happen if we all consciously decide to approach things assuming only the best outcomes? This could break <em>AND it also could work which would be pretty rad.</em> I've never done this before <em>and when this is over, I'll have learned so much.</em> This is a ridiculous idea <em>and an excellent opportunity to try something new.</em></p>
+                        <p><strong>Prospects:</strong> lookin up!</p>
+                        <p>So, as we work our way through the hottest part of the year with the most hours of sunshine, I hope you're all able to (at least a few times) reframe those initial doubts, find some joy or wonder in the unknown, and prospect some silver linings. And in August, I'll leave the dad jokes to someone more qualified!</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="year-2024" class="year-content">
+            <div class="messages-grid">
+                <!-- December 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">December 2024</div>
+                        <div class="message-word">Aspire</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope everyone had a restful and delicious Thanksgiving break! We spent several days with family in Albuquerque...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope everyone had a restful and delicious Thanksgiving break! We spent several days with family in Albuquerque and got to meet our week-old niece, Mabel. There are few things more rejuvenating than newborn snuggles (especially when you're not the one waking up with them in the middle of the night).</p>
+                        <p>As we wrap up 2024, I find myself especially optimistic about what 2025 holds. Having just read through glowing feedback and reflective self-evaluations, I am reminded that ours is a very ambitious and plugged-in team. The reach of your expertise is far and wide; it is no surprise we are on problem-solving speed dial for so many. And even though we are finishing up 2024's performance review process, we know the conversation will soon shift to 2025 goals.</p>
+                        <p>Admittedly, I have always struggled with goal setting. While I am usually a very good planner, there is something about the goal setting process that makes me feel anxious and a little claustrophobic. Even as a kid, I hated the question "What do you want to be when you grow up?" How could I possibly set a goal like that when I still thought my teachers lived at school? I didn't know what I didn't know and boxing myself into my 8-year-old worldview was not appealing. What I did know was what I aspired to be: helpful, kind, funny, and necessary.</p>
+                        <p><strong>December Word of the Month: Aspire (v) direct one's hopes or ambitions towards achieving something.</strong></p>
+                        <p>Before you consider your 2025 goals, I challenge each of you to identify what you aspire to be. While our Workday goals should be measurable and attainable in the short or near term, aspirations can be fuzzy, life-long pursuits. Your goals should help you on your way to realizing your aspirations – and they may not (I'd argue should not) always directly relate to your day-to-day role or responsibilities. Working from home, the line between personal and work life blurs, and it's more than ok to ensure who you are at work is someone you're proud of at your kitchen table and vice versa.</p>
+                        <p>As you identify what you aspire to be, I encourage you to share with your career advocate. Talk about what your aspirations mean to you, how they make (or will make) you feel. Work together to find more ways you can organically continue your progress and if there is need for change, let's address it now! Your career growth is important to me, but so is your personal growth. Your time on this team should not be a detour away from your becoming who you want to be when you're away from your computer.</p>
+                        <p>I am so proud of each you. I cannot wait to hear about your aspirations and how I may help you on your journey to realizing them.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- November 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">November 2024</div>
+                        <div class="message-word">Lead</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope everyone got their fill of tricks and treats this Halloween! I've been convinced to do "No Sugar November"...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope everyone got their fill of tricks and treats this Halloween! I've been convinced to do "No Sugar November" with one of my college roommates so… if you, too, are into arbitrarily depriving yourself of sweet treats, feel free to join us!</p>
+                        <p>I think about leadership and what it means to lead a lot. Even still, preparing this note was the first time I can ever remember looking up the definition (or, as it turns out, definitions). These variations are why leadership is such a thrilling concept. There are opportunities for us each to lead and follow every day. And the most incredible part is we (often) get to choose.</p>
+                        <p><strong>November Word of the Month: Lead</strong></p>
+                        <p>1. (verb) cause a person or animal to go with one by holding them by the hand, a halter, a rope, etc. while moving forward<br>
+                        2. (verb) be a route or means of access to a particular place or in a particular direction<br>
+                        3. (noun) the initiative in an action; an example for others to follow<br>
+                        4. (noun) a position of advantage in a contest; first place</p>
+                        <p><strong>Lead: (verb) cause a person or animal to go with one by holding them by the hand, a halter, a rope, etc. while moving forward</strong></p>
+                        <p>How many times have you gotten through or tried something only because someone else was willing to go first? It's normal to be apprehensive about change or new things, but following someone we believe in and trust can give us the confidence we need to make the leap. This sort of lead calls on us to be brave – whether we're the leader or the follower.</p>
+                        <p><strong>Lead: (verb) be a route or means of access to a particular place or in a particular direction</strong></p>
+                        <p>This definition is one of my favorites because all it takes is a small moment, idea, or person illuminating a path you couldn't see before to make progress. At any point, anything or anyone you're engaged enough with can be a lead.</p>
+                        <p><strong>Lead: (noun) the initiative in an action; an example for others to follow</strong></p>
+                        <p>You already do an exemplary job at this. On your client engagements, supporting one another, and collaborating with other teams, this team is an example to follow in professionalism, service, and good human-ness (I made that one up but it's important to me).</p>
+                        <p><strong>Lead: (noun) a position of advantage in a contest; first place</strong></p>
+                        <p>We all know I love healthy competition. You can't win them all, but there is no harm in trying.</p>
+                        <p>Regardless of our titles or reporting structures, there are opportunities for all of us to lead and follow every day. Finding the right moments (for you) to do both is critical to your success and our team's. I put it in most monthly notes because it's true: your unique strengths are what make this team great. Lead when you know the way forward. Follow when you trust the person ahead of you. Don't be shy about wanting to win. As you prepare to write your 2024 self-evaluation, think about the moments you lead this year. Brag about the impact you made. Give encouraging feedback and praise to the people you follow. Let's admit (at work and in our personal lives) that no one person has all the answers, but collectively, we have everything we need to be successful.</p>
+                        <p><em>"Your success as a leader is how much good people do thanks to your presence." – Adam Grant</em></p>
+                        <p>Thankful for this team of leaders.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- October 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">October 2024</div>
+                        <div class="message-word">Give</div>
+                    </div>
+                    <div class="message-preview">
+                        Happy Spooky Season! Growing up, my expert seamstress grandmother made us the costumes of our dreams...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Happy Spooky Season!</strong></p>
+                        <p>Growing up, my expert seamstress grandmother made us the costumes of our dreams and my thrill-seeking grandfather let us watch scary movies we had absolutely no business seeing. This time of year reminds me how impactful the parts of ourselves we choose to share can be. Often, the things that come naturally to us (like turning out a couture witch costume in a matter of a few hours) bring the most joy to the people we share them with.</p>
+                        <p>I've said countless times that my favorite thing about this team is all of you. I value your unique contributions more than I can say, and the best part is I know that feeling is shared amongst you. Watching this team collaborate, share knowledge, and celebrate one another is what makes it easier to get through the challenging cycles agency life brings. We are a team of generous givers.</p>
+                        <p><strong>October Word of the Month: Give (v) cause or allow (someone or something) to have (something, especially something abstract)</strong></p>
+                        <p>It's easy to hear "give" and assume there is a sacrifice to make or a burden to bear. But think about the last time someone gave you something that helped you or brought you joy… I'd guess it was a simple gesture. Or what about the last time you gave 5 minutes to a colleague in need? You probably didn't think much of it, but it likely improved their day and made you feel pretty good!</p>
+                        <p>In continuing our pursuit of ease from September, I challenge you all to think about how and what you give to this team and your clients. Are you putting pressure on yourself to give more than you're reasonably able? If so, why? Let's work together to change that pattern. Are you looking for new ways to help your clients or teammates? Let's brainstorm how we can give more of your time or expertise to initiatives that could use it!</p>
+                        <p>I hope you're all able to find ways to give that energize you and bring you a sense of joy and accomplishment. I also hope you're vulnerable enough to admit when you need help and accept that help when someone can give it. We'll be stronger for it.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- September 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">September 2024</div>
+                        <div class="message-word">Ease</div>
+                    </div>
+                    <div class="message-preview">
+                        If you're like me and believe Labor Day is the first day of the Halloween season – WE FINALLY MADE IT!...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>If you're like me and believe Labor Day is the first day of the Halloween season – WE FINALLY MADE IT! If you're one of those crazy people who prefers the hot summer months… I don't understand but I can empathize with the sadness this change can bring.</p>
+                        <p>Around this time, I find myself reflecting on what's been accomplished so far this year and prioritizing what can reasonably still be done before the clock runs out on 2024. This year, I'm reminded of how triumphant this team has been. Constant changes, new managers, new accounts, ever-present client demands… the list of challenges is long, and everyone has risen to the occasion. We've talked about resilience, action, and persistence over the last few months and let me admit in writing that I've asked a lot of you. And while powering through is often the default, it is time to prioritize ease.</p>
+                        <p><strong>September Word of the Month: Ease (v) make (something unpleasant, painful, or intense) less serious or severe.</strong></p>
+                        <p>The law of parsimony – or Occam's razor – tells us that "entities must not be multiplied beyond necessity" or to say it plainly, the simplest explanation is usually the best one. This month, I challenge you to take advantage of opportunities to ease complex or frustrating situations. What is the simplest technical solution? The simplest explanation for that error? The simplest path forward after a tense conversation? (One of my favorites is to assume ignorance (simple) rather than ill intent (a lot of work) and… move on.)</p>
+                        <p>For the remainder of this year, it is my goal to ease unnecessary burdens and simplify wherever possible. I want to know your concerns about complexity, uncertainty, or tension; please communicate to your CA and/or me so we can find the right path forward. My proverbial door is always open – and there isn't a difficult conversation I wouldn't have on behalf of any of you.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- August 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">August 2024</div>
+                        <div class="message-word">Persistence</div>
+                    </div>
+                    <div class="message-preview">
+                        Flow Riders! I apologize for the delay on our Word of the Month – but I thank you for your grace as I get back into the full swing of things...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Flow Riders!</strong></p>
+                        <p>I apologize for the delay on our Word of the Month – but I thank you for your grace as I get back into the full swing of things. Please let this be your reminder to carve time out for yourselves. We are part of a team for a reason. We will find coverage; you deserve time off.</p>
+                        <p>Lately, we have had some incredible client breakthroughs – we've seen something finally click and get the green light to move forward on sound, intelligent, impactful recommendations that we've been making for (in some cases) years. We also continue to have clients who defy us at every turn. I think we'll always have clients in both camps and while it can be incredibly exhausting, our persistence ultimately proves our value as partners and experts.</p>
+                        <p><strong>August Word of the Month: Persistence (n) firm or obstinate continuance in a course of action in spite of difficulty or opposition.</strong></p>
+                        <p>Stamina and confidence are finite resources – without something to refuel on, persistence with a difficult client can lead to burnout and resentment. But when a years-long recommendation becomes reality, suddenly all of that pushing is worth it.</p>
+                        <p>So how do we persist AND protect ourselves from the side effects of talking to a brick wall? Here are my go-to's:</p>
+                        <p>• Give yourself a break – find a simple, easy task that will give you a win!<br>
+                        • Give yourself a literal break – take time off (be it a week, a day, or an hour). The team is here to cover each other, no one wins if you're on E.<br>
+                        • Get a fresh perspective – present your recommendation to a teammate! An outsider may not fully understand your exact client situation, but their questions or comments may just give you a new thread to pull.</p>
+                        <p>I am incredibly proud of this team – you celebrate each other's wins, and you support and encourage teammates when they need it most. That unwavering, nurturing energy is the undeniable fourth bullet in my list above. Thank you for your persistent pursuit of what's best for your clients and one another.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- July 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">July 2024</div>
+                        <div class="message-word">Action</div>
+                    </div>
+                    <div class="message-preview">
+                        Hopefully, the short week is staying that way! Each of you deserves a relaxing and fun-filled four-day weekend...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>Hopefully, the short week is staying that way! Each of you deserves a relaxing and fun-filled four-day weekend.</p>
+                        <p>I'm not sure about you all, but I've been feeling more lately. More stress, more needs, more ideas, more opportunities, more what-ifs, the list goes on…</p>
+                        <p>If you're feeling the more, perhaps you're also feeling the anxiety that comes with it. And while it may be a story I tell myself, I think that anxiety shows we care. If we didn't, the more wouldn't matter; we might not even notice it.</p>
+                        <p>So what do we do? How do we protect ourselves from… ourselves? How do we make sure the more (and its sidecar of anxiety) doesn't become so heavy we're pancaked under the weight of it all?</p>
+                        <p><strong>July Word of the Month: Action (n) a thing done; an act.</strong></p>
+                        <p>I know what you're thinking and yes, that's it. Really.</p>
+                        <p>Last month, we talked about resilience and how to find a way out of a particularly frustrating or amorphous problem. But what do we do if there are four problems, two opportunities, and 92 unread emails? The answer is… anything. Make it 91 unread emails, set a timer for 15 minutes and focus on the first problem, take a walk, ask for help.</p>
+                        <p>Jon Stewart once said, "action is the antidote to anxiety." I do believe he lifted this from a questionable billionaire, but it doesn't make it any less true. Take an action, any action; cross one thing off the list today that you'll thank yourself for tomorrow. And if that action is asking for help—my door is always open.</p>
+                        <p>Thank you for everything you do.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- June 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">June 2024</div>
+                        <div class="message-word">Resilience</div>
+                    </div>
+                    <div class="message-preview">
+                        Good morning, When I lived in Portland, we lovingly referred to June as "June Gloom"...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Good morning,</strong></p>
+                        <p>When I lived in Portland, we lovingly referred to June as "June Gloom" – a month when we rarely saw the sun, everything was wet all the time, and it was impossible to believe summer was starting. And even though we couldn't control the weather, we found a way to enjoy it. While many others were shedding layers and getting straight to patio drinks and sunburns, we were easing into the most beautiful time of year in the PacNW.</p>
+                        <p>As much as I'd love it, we will never be in complete control – of anything – and things will inevitably go wrong or impact us in a way that we didn't plan for or prefer. The ability to sort through that feeling of chaotic overwhelm and key in on exactly what you can do (or influence) next is critical – it's resilience.</p>
+                        <p><strong>June Word of the Month: Resilience (n) an ability to recover from or adjust easily to misfortune or change.</strong></p>
+                        <p>Resilience doesn't mean you're unaffected. It doesn't mean you're not allowed to feel discouraged or disengaged. It does mean that you're able to recover from those feelings and move forward, or move forward in spite of them.</p>
+                        <p>Below is how I approach finding a way forward – if you have your own method, I'd love to hear about it! If you give this way a try, let me know how it works for you.</p>
+                        <p><strong>Ariana's Favorite Exercise to Assess a Frustrating Situation and Find a Way to Move Forward</strong></p>
+                        <p>1. Write a bulleted list of everything about the situation that bothers you<br>
+                        2. Add to the list everything about the situation that you think is, can, or will go wrong<br>
+                        3. Cross out everything you cannot reasonably influence or control<br>
+                        4. Re-write your list with only the items you haven't crossed out<br>
+                        5. Crumple up and throw away (or burn if that's what you need 😉) the first list<br>
+                        6. Start on the new list with the item that energizes you most OR is easiest/fastest to accomplish</p>
+                        <p>Thank you all for everything you do – for your clients and each other.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- May 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">May 2024</div>
+                        <div class="message-word">Flex</div>
+                    </div>
+                    <div class="message-preview">
+                        We made it! It's May – spring has sprung, warmer days are on the horizon, and soon we'll be able to wander a farmer's market...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>We made it! It's May – spring has sprung, warmer days are on the horizon, and soon we'll be able to wander a farmer's market (or your other preferred warm-weather outdoor activity) on a leisurely weekend morning. I love that for us.</p>
+                        <p>I have been having overwhelming feelings of newness, opportunity, and optimism. But Ariana, you're already annoyingly optimistic. I know, I know. But hear me out…</p>
+                        <p>The influx of exceptional feedback from our partners, your innovative solutions to random problems, the increased collaboration across teams, and your willingness to jump into everything that's thrown our way leave me incredibly excited for and confident in our ability to navigate whatever comes at us. Organizational changes, tricky clients, or a super-secret third thing I haven't thought of yet don't scare me – and I hope they don't scare you. This team is so good at so many things, and we're just barely starting to take advantage of that.</p>
+                        <p><strong>May Word of the Month: Flex (v) put a skill, talent, or ability to use.</strong></p>
+                        <p>This month, I challenge you to flex a skill you don't get to every day. We've talked before about how all skills are transferable - maybe you've shelved your knack for proofreading or put your data analytics chops on the back burner lately. How can you tap back into your talents that may not fit neatly in our Platform Architect job description but add value for your client and the team around you? And when you do flex that skill… how does it make you feel?!</p>
+                        <p>As ever, thank you for all you do; for our clients and each other. I am so proud of this team and excited for what's ahead.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- April 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">April 2024</div>
+                        <div class="message-word">Venture</div>
+                    </div>
+                    <div class="message-preview">
+                        We've officially made it to Q2, which feels aggressive because I've just barely gotten into the swing of using "2024"...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>We've officially made it to Q2, which feels aggressive because I've just barely gotten into the swing of using "2024." Hopefully, you're all feeling the benefits of more sunshine and hints of warmer weather. If you haven't already planned some OOO time in the coming months, I encourage you to do so.</p>
+                        <p>Spring is a universal symbol of renewal; green grass, fresh blooms, more bunnies eating your fresh blooms, the list goes on. While some feel longer than others, we can always count on the relief and excitement headed our way when we collectively venture into a new season.</p>
+                        <p><strong>April Word of the Month: Venture (v) to take a risk; (n) a risky or daring journey or undertaking.</strong></p>
+                        <p>This month, I challenge you to venture outside your comfort zone. How many times has someone asked you "What's new?" and you responded, "Not much"?</p>
+                        <p>It's easy to rest in the predictability of familiar cycles; and while I love a good routine, that monotony can get heavy. Building new relationships, trying a new approach, or perhaps test-driving a little delusional optimism can help bring some levity to your day.</p>
+                        <p>After our Teaming with Strengths Workshop, I've been very focused on extending my bubble of close relationships. Venturing beyond my pinned chats to reach out to people typically in my periphery has been a rewarding challenge. If you were one of the many members of our team with Relator in your top 10, I encourage you to give it a try!</p>
+                        <p>Ultimately, at the end of the month, I hope you have an answer to "What's new?" that you're excited to give.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- March 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">March 2024</div>
+                        <div class="message-word">Sincere</div>
+                    </div>
+                    <div class="message-preview">
+                        Hopefully, you're starting to thaw and enjoying a few spring-like days here and there...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>Hopefully, you're starting to thaw and enjoying a few spring-like days here and there. I am very much looking forward to more hours of sunlight – even if we get there minutes at a time.</p>
+                        <p>Over the last several weeks, I have been incredibly proud of how this team has managed through and escalated difficult client and internal conversations, expectations, and operations. You have honestly and proactively shared pain points and concerns that if otherwise left unaddressed, could have the potential to derail some of our engagements.</p>
+                        <p>The ability and willingness to share your concerns is a large part of our long-term success. If you have a sincere desire to be part of a solution, your escalation will never be "just complaining."</p>
+                        <p><strong>March Word of the Month: Sincere (adj) free from pretense or deceit; proceeding from genuine feelings.</strong></p>
+                        <p>While I am very proud of the escalations this team has made, many of them have started with "I don't want to complain" or "I probably just need to work through it." Let me start with: I understand this sentiment. This team is full of hard-working, dedicated professionals who take pride in their work. It is no surprise to me that bringing your pain points forward can be a bit of a tough ask.</p>
+                        <p>That said, I also believe this team deserves to be heard. When we approach these conversations sincerely, guided by the desire to work collaboratively and provide best-in-class service, we can't go wrong.</p>
+                        <p>Please, continue to use your voices. Remember you are part of a team and this structure we have is built to support you.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- February 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">February 2024</div>
+                        <div class="message-word">Choice</div>
+                    </div>
+                    <div class="message-preview">
+                        I am sure many of us are still digesting the news from last week about the delay in annual salary reviews in the US...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I am sure many of us are still digesting the news from last week about the delay in annual salary reviews in the US. It's important to me that you know that I am here as an outlet if you want to discuss the topic further.</p>
+                        <p>We talk a lot about change, about white glove service, about going above and beyond to ensure our clients are well taken care of. None of that is possible if we're consistently operating at a break-neck pace. This month, I want to talk about going above and beyond for ourselves and each other - being careful with where and when we spend our energy.</p>
+                        <p>I had been considering this word for February even before last Friday. With so many recent changes and difficult conversations, it feels like the right time to state blatantly: each of you have my full support in making the right choice for you at any given time (as long as that choice is rooted firmly in respect for yourselves, our colleagues, and our clients).</p>
+                        <p><strong>February Word of the Month: Choice (n) an act of selecting or making a decision when faced with two or more possibilities.</strong></p>
+                        <p>I want you each to remember that you always have a choice. Do you need to respond to that message right now? You know if it's urgent and will choose the appropriate response time. Do you need to engage in a conversation? You know where your voice is needed and where it's not. At work, it can often feel like we must react as quickly as possible. While I expect us to meet deadlines and respond promptly so our partners know we are engaged, I do not expect anyone to rush arbitrarily in the name of rapid decision-making. I expect our responses and choices to be carefully considered, thoughtful, and thorough.</p>
+                        <p>I'll be honest and say that I felt a lot of things last Friday. I was disappointed, frustrated, and exhausted on behalf of each of you. I was gutted to lose the opportunity to reward your hard work. Saturday I was disappointed and frustrated for myself. But those were my reactions. On Monday, I logged on and chose focus. Focus on what I can control. Focus on supporting each of you.</p>
+                        <p>If it's helpful for you, try the same exercise. How did last Friday make you feel? What was your reaction? And now, how do you choose to move forward?</p>
+                        <p>Other choices I am making this month: confidence in this team, optimism for the year ahead, and tenacious advocacy.</p>
+                        <p>Thank you for all you do.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+
+                <!-- January 2024 -->
+                <div class="message-card" onclick="toggleCard(this)">
+                    <div class="message-header">
+                        <div class="message-month">January 2024</div>
+                        <div class="message-word">Curious</div>
+                    </div>
+                    <div class="message-preview">
+                        I hope you all enjoyed a wonderful and relaxing break full of your favorite people, food, and activities...
+                    </div>
+                    <div class="message-full">
+                        <p><strong>Team,</strong></p>
+                        <p>I hope you all enjoyed a wonderful and relaxing break full of your favorite people, food, and activities. My daughter is enjoying her second week of winter break, but I'm honestly glad to be back to somewhat of a normal routine (can't exist on cheese, crackers, and coffee for much longer).</p>
+                        <p>As we start a fresh calendar year, it can be both invigorating and intimidating to stare down a new set of 12 months. There seems to be a tremendous amount of pressure placed on us to invent a grand or ground-breaking resolution; to start doing something noble or stop doing something less noble. While I don't have a personal vendetta against New Year's Resolutions, I do question the premise. The idea that we might change one (usually big) thing at the start of the year that will ultimately set the course for a profoundly improved lived experience is one I struggle to get behind. We are creatures of change, emotion, interest, and necessity – what suits us in January is likely to no longer suit us in the same way in April. We can argue that I'm assigning too much permanence to New Year's Resolutions, but if that's the case, I'd challenge the need for a short-term resolution to wait until the new year. 😉</p>
+                        <p>What I'm getting at is that while the first day of a new year feels like the right time to make a major change or commitment, I also find it restrictive. We will grow and learn every day, find new and interesting paths to pursue; if we lock ourselves into one big idea, what are we locking ourselves out of?</p>
+                        <p><strong>January Word of the Month: Curious (adj) eager to know or learn something.</strong></p>
+                        <p>If you've made a New Year's Resolution for 2024, I hope you are successful in achieving it (truly I am!) – and I'd love to know what it is! But alongside or in place of that resolution, I challenge you to be diligently curious this month. Ask the who, what, where, when, and why questions. If something makes you do a double take, let it. Enjoy the process of learning new things and dissecting things you usually don't pay attention to.</p>
+                        <p>I have been especially lucky to have leaders who allowed me to indulge in my curiosity, even when it took me down a very different path than I was already on. I am forever grateful to those leaders, and I hope to return the favor. Explore. Question. Indulge. And when I can help clear the path, let me know where to bring my bulldozer.</p>
+                        <p>Happy New Year, team – I look forward to seeing each of you chart your paths in 2024.</p>
+                        <button class="collapse-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.message-card'))">Show Less</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showYear(year) {
+            // Hide all year contents
+            document.querySelectorAll('.year-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.year-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected year
+            document.getElementById('year-' + year).classList.add('active');
+            
+            // Activate selected tab
+            document.querySelector(`[data-year="${year}"]`).classList.add('active');
+        }
+        
+        function toggleCard(card) {
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Collapse all cards first
+            document.querySelectorAll('.message-card').forEach(c => {
+                c.classList.remove('expanded');
+            });
+            
+            // If card wasn't expanded, expand it
+            if (!isExpanded) {
+                card.classList.add('expanded');
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>
